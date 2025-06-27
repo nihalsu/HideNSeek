@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Görsel Karşılaştırma - HideNSeek</title>
+  <style>
+    body {
+      margin: 0;
+      background: #1c1c2c;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    h2 {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+
+    .compare-container {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 100%;
+    }
+
+    .image-box {
+      position: relative;
+      border: 2px solid #5C527F;
+      border-radius: 12px;
+      overflow: hidden;
+      flex: 1 1 45%;
+      max-width: 45%;
+    }
+
+    .image-box img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .lens {
+      position: absolute;
+      border: 2px solid #6E85B2;
+      border-radius: 50%;
+      width: 100px;
+      height: 100px;
+      background-repeat: no-repeat;
+      pointer-events: none;
+      z-index: 10;
+      display: none;
+    }
+
+    .label {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-weight: bold;
+      color: #ccc;
+    }
+
+    a.back-btn {
+      margin-top: 2rem;
+      padding: 0.6rem 1.2rem;
+      background: #5C527F;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    a.back-btn:hover {
+      background: #6E85B2;
+    }
+
+    @media screen and (max-width: 900px) {
+      .image-box {
+        max-width: 90%;
+        flex: 1 1 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>Görsel Karşılaştırma</h2>
+  <div class="compare-container">
+    <div class="image-box" id="originalBox">
+      <img id="originalImage" src="" alt="Orijinal Görsel">
+      <div class="lens" id="originalLens"></div>
+      <div class="label">Orijinal</div>
+    </div>
+    <div class="image-box" id="encodedBox">
+      <img id="encodedImage" src="" alt="Encoded Görsel">
+      <div class="lens" id="encodedLens"></div>
+      <div class="label">Mesaj Gömülmüş</div>
+    </div>
+  </div>
+
+  <a href="encode.html" class="back-btn">Geri Dön</a>
+
+  <script>
+    function setupDualMagnifier(originalImg, encodedImg, originalLens, encodedLens) {
+      const lensSize = 150;
+      const zoom = 2;
+
+      function moveLens(e) {
+        [originalLens, encodedLens].forEach(lens => lens.style.display = "block");
+
+        const rect = encodedImg.getBoundingClientRect();
+        let x = e.clientX - rect.left;
+        let y = e.clientY - rect.top;
+
+        x = Math.max(0, Math.min(x, encodedImg.width));
+        y = Math.max(0, Math.min(y, encodedImg.height));
+
+        const bgX = -(x * zoom - lensSize / 2);
+        const bgY = -(y * zoom - lensSize / 2);
+
+        // Her iki lens'i konumlandır
+        [originalLens, encodedLens].forEach((lens, i) => {
+          const img = i === 0 ? originalImg : encodedImg;
+          lens.style.left = `${x - lensSize / 2}px`;
+          lens.style.top = `${y - lensSize / 2}px`;
+          lens.style.backgroundPosition = `${bgX}px ${bgY}px`;
+        });
+      }
+
+      function hideLenses() {
+        [originalLens, encodedLens].forEach(lens => lens.style.display = "none");
+      }
+
+      [originalLens, encodedLens].forEach((lens, i) => {
+        const img = i === 0 ? originalImg : encodedImg;
+        lens.style.backgroundImage = `url(${img.src})`;
+        lens.style.backgroundSize = `${img.width * zoom}px ${img.height * zoom}px`;
+      });
+
+      encodedImg.parentElement.addEventListener("mousemove", moveLens);
+      encodedImg.parentElement.addEventListener("mouseleave", hideLenses);
+    }
+
+    // Görsel URL’lerini parametreden al
+    const params = new URLSearchParams(window.location.search);
+    const original = params.get("original");
+    const encoded = params.get("encoded");
+
+    if (original && encoded) {
+      document.getElementById("originalImage").src = original;
+      document.getElementById("encodedImage").src = encoded;
+
+      document.getElementById("encodedImage").onload = () => {
+        setupDualMagnifier(
+          document.getElementById("originalImage"),
+          document.getElementById("encodedImage"),
+          document.getElementById("originalLens"),
+          document.getElementById("encodedLens")
+        );
+      };
+    } else {
+      alert("Görsel URL’leri bulunamadı.");
+    }
+  </script>
+</body>
+</html>

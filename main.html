@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HideNSeek - Main</title>
+  <style>
+    :root {
+      --darkest: #261C2C;
+      --dark: #3E2C41;
+      --mid: #5C527F;
+      --light: #6E85B2;
+      --text: #f1f1f1;
+    }
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, var(--darkest), var(--dark));
+      color: var(--text);
+    }
+    nav {
+      background: var(--darkest);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .nav-left {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--light);
+    }
+    .nav-right a {
+      margin-left: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .nav-right a.active, .nav-right a:hover {
+      background-color: var(--mid);
+      color: white;
+    }
+    .container {
+      max-width: 900px;
+      margin: 3rem auto;
+      background: var(--dark);
+      padding: 2rem;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+    h2 {
+      text-align: center;
+      color: var(--light);
+    }
+    p {
+      text-align: center;
+      max-width: 700px;
+      margin: 1rem auto;
+      line-height: 1.6;
+    }
+    .highlight-section {
+      background-color: #3E2C41;
+      border-left: 5px solid var(--light);
+      padding: 1.5rem;
+      margin: 2rem auto;
+      max-width: 800px;
+      border-radius: 10px;
+      color: #f1f1f1;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .highlight-section h3 {
+      color: var(--light);
+    }
+    .section {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .feature-box {
+      border: none;
+      border-radius: 12px;
+      padding: 2rem;
+      background: var(--mid);
+      color: white;
+      text-align: center;
+      width: 220px;
+      text-decoration: none;
+      transition: transform 0.3s ease, background 0.3s ease;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
+    .feature-box:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: var(--light);
+      color: var(--darkest);
+    }
+    .feature-box h3 {
+      margin-bottom: 0.5rem;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">HideNSeek</div>
+    <div class="nav-right">
+      <a href="main.html" class="active">Main</a>
+      <a href="encode.html">Encode</a>
+      <a href="decode.html">Decode</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Gizli Mesajlarınızı Güvenle Saklayın</h2>
+    <p>
+      HideNSeek, gizli mesajlarınızı bir resmin içerisine gömmenizi veya daha önce gömülmüş mesajları çözmenizi sağlayan modern ve sade bir web uygulamasıdır.
+    </p>
+
+    <div class="highlight-section">
+      <h3>🔐 Steganografi Nedir?</h3>
+      <p>
+        Steganografi, bir mesajı veya bilgiyi başka bir içeriğin içine saklama sanatıdır. Bu uygulamada, mesajlarınızı görünmez şekilde PNG resimlerinin içine gömebilirsiniz.
+      </p>
+      <h3>📥 Encode Nedir?</h3>
+      <p>
+        Encode işlemi, yazdığınız mesajı seçtiğiniz bir resmin içerisine yerleştirmenizi sağlar. Bu işlem sırasında görselin yapısı neredeyse hiç bozulmaz.
+      </p>
+      <h3>📤 Decode Nedir?</h3>
+      <p>
+        Decode işlemi, daha önce gizlenmiş bir mesajı içeren resmi yükleyerek içindeki mesajı ortaya çıkarmanızı sağlar.
+      </p>
+    </div>
+
+    <div class="section">
+      <a href="encode.html" class="feature-box">
+        <h3>🛠 Encode</h3>
+        <p>Bir mesajı bir resmin içerisine gizleyin.</p>
+      </a>
+
+      <a href="decode.html" class="feature-box">
+        <h3>🔍 Decode</h3>
+        <p>Resmin içinde gizlenmiş mesajı çözün.</p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

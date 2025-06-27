@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HideNSeek - Decode</title>
+  <style>
+    :root {
+      --darkest: #261C2C;
+      --dark: #3E2C41;
+      --mid: #5C527F;
+      --light: #6E85B2;
+      --text: #f1f1f1;
+    }
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, var(--darkest), var(--dark));
+      color: var(--text);
+    }
+    nav {
+      background: var(--darkest);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .nav-left {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--light);
+    }
+    .nav-right a {
+      margin-left: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .nav-right a.active, .nav-right a:hover {
+      background-color: var(--mid);
+      color: white;
+    }
+    .container {
+      max-width: 800px;
+      margin: 3rem auto;
+      background: var(--dark);
+      padding: 2rem;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+    .section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .box {
+      width: 100%;
+      background-color: var(--mid);
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 2rem;
+      flex-direction: column;
+      transition: transform 0.3s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .box:hover {
+      transform: scale(1.02);
+    }
+    input[type="file"] {
+      margin-top: 1rem;
+      padding: 0.7rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      width: 80%;
+    }
+    #previewImage {
+      max-width: 300px;
+      max-height: 200px;
+      border-radius: 12px;
+      margin-top: 1rem;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+      display: none;
+      transition: transform 0.3s ease-in-out;
+    }
+    #previewImage:hover {
+      transform: scale(1.05);
+    }
+    button {
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--light);
+      color: var(--darkest);
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      background: var(--text);
+      color: var(--darkest);
+      transform: scale(1.05);
+    }
+    .result-box {
+      width: 100%;
+      padding: 1.5rem;
+      background-color: var(--mid);
+      border-radius: 12px;
+      color: white;
+      margin-top: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">HideNSeek</div>
+    <div class="nav-right">
+      <a href="main.html">Main</a>
+      <a href="encode.html">Encode</a>
+      <a href="decode.html" class="active">Decode</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="section">
+      <div class="box">
+        <div>Resminizi yükleyiniz (.png)</div>
+        <input type="file" accept="image/png" id="decodeImageInput">
+        <img id="previewImage" />
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+      <button id="decode-btn">Ayıkla</button>
+    </div>
+
+    <div id="decodedResult" style="display:none; text-align:center; margin-top: 2rem;">
+      <h3>Çözümlenen Mesaj:</h3>
+      <div id="decodedMessageBox" class="result-box"></div>
+    </div>
+  </div>
+
+  <script src="script/decode.js"></script>
+</body>
+</html>

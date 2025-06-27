@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HideNSeek - Encode</title>
+  <style>
+    :root {
+      --darkest: #261C2C;
+      --dark: #3E2C41;
+      --mid: #5C527F;
+      --light: #6E85B2;
+      --text: #f1f1f1;
+    }
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, var(--darkest), var(--dark));
+      color: var(--text);
+    }
+    nav {
+      background: var(--darkest);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .nav-left {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--light);
+    }
+    .nav-right a {
+      margin-left: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .nav-right a.active, .nav-right a:hover {
+      background-color: var(--mid);
+      color: white;
+    }
+    .container {
+      max-width: 900px;
+      margin: 3rem auto;
+      background: var(--dark);
+      padding: 2rem;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+    .section {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .box {
+      flex: 1 1 45%;
+      background: var(--mid);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+    .box:hover {
+      transform: translateY(-5px);
+    }
+    input[type="file"], textarea {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.7rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+    }
+    textarea {
+      height: 100px;
+      resize: vertical;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: var(--light);
+      color: var(--darkest);
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: var(--text);
+      color: var(--darkest);
+    }
+    #resultSection {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .progress-bar-container {
+      width: 80%;
+      height: 26px;
+      background: var(--darkest);
+      border-radius: 20px;
+      margin: 1rem auto;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, var(--light), var(--mid));
+      text-align: center;
+      color: white;
+      font-weight: bold;
+      line-height: 26px;
+      border-radius: 20px;
+      transition: width 0.7s ease-in-out;
+    }
+    .bitplane-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 1rem;
+      animation: fadeInUp 1s ease-in-out;
+    }
+    .bitplane-list img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      transform: scale(1);
+      transition: transform 0.4s ease;
+    }
+    .bitplane-list img:hover {
+      transform: scale(1.15) rotate(1deg);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-left">HideNSeek</div>
+    <div class="nav-right">
+      <a href="main.html">Main</a>
+      <a href="encode.html" class="active">Encode</a>
+      <a href="decode.html">Decode</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="section">
+      <div class="box">
+        <div>Resminizi yükleyiniz (.png)</div>
+        <input type="file" accept="image/png" id="imageInput" />
+      </div>
+      <div class="box">
+        <div>Mesajınızı yazınız</div>
+        <textarea placeholder="Gizlenecek mesaj..." id="messageInput"></textarea>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 1.2rem;">
+      <input type="checkbox" id="histogramCheck" checked />
+      <label for="histogramCheck">Histogram eşitleme uygulansın</label>
+    </div>
+
+    <div style="text-align: center;">
+      <button id="encode-btn">Oluştur</button>
+    </div>
+
+    <div id="resultSection" style="display:none;">
+      <h3>Encode Edilmiş Önizleme:</h3>
+      <img id="previewImage" style="max-width: 300px; border-radius: 12px; margin: 1rem 0; box-shadow: 0 6px 16px rgba(0,0,0,0.4);" />
+      <div>
+        <a id="downloadOriginal" href="#" download="encoded_image.png">
+          <button>Orijinal Boyutta İndir</button>
+        </a>
+        <a id="downloadPreview" href="#" download="preview_image.png">
+          <button>Önizleme Boyutta İndir</button>
+        </a>
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <h4>İstatistik:</h4>
+        <p id="statsMessage"></p>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="bitProgressBar">0%</div>
+        </div>
+      </div>
+
+      <div id="bitplanesContainer">
+        <h4>Bit-Plane Görselleri</h4>
+        <div class="bitplane-list" id="bitplaneList"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script/encode.js"></script>
+</body>
+</html>
